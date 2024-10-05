@@ -1,1 +1,1 @@
-# gest-o-de-produtos
+# gestão-de-produtos
