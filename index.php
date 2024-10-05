@@ -52,8 +52,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Busca as categorias para preencher o select
-$sql = "SELECT id_categorias, categoria FROM categorias";
-$result = $conn->query($sql);
+$sql_categorias = "SELECT id_categorias, categoria FROM categorias";
+$result_categorias = $conn->query($sql_categorias);
+
+// Pesquisa de produtos
+$sql_produtos = "SELECT id_produtos, nome, preco, id_categoria FROM produtos"; // Correção na consulta SQL
+$result_produtos = $conn->query($sql_produtos); // Execução da consulta
 
 ?>
 
@@ -70,8 +74,8 @@ $result = $conn->query($sql);
        <label>Categoria:</label>
        <select name="categoria" required>
        <?php
-          if ($result->num_rows > 0) {
-              while ($row = $result->fetch_assoc()) {
+          if ($result_categorias->num_rows > 0) {
+              while ($row = $result_categorias->fetch_assoc()) {
                   echo "<option value='{$row['id_categorias']}'>{$row['categoria']}</option>";
               }
           } else {
@@ -88,6 +92,29 @@ $result = $conn->query($sql);
     <button type="submit">Enviar</button>
   </form>
 
+  <h2>Lista de Produtos</h2>
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Preço</th>
+      <th>ID Categoria</th>
+    </tr>
+    <?php 
+    if ($result_produtos->num_rows > 0) {
+        while ($row = $result_produtos->fetch_assoc()) {
+            echo "<tr>
+                    <td>{$row['id_produtos']}</td>
+                    <td>{$row['nome']}</td>
+                    <td>{$row['preco']}</td>
+                    <td>{$row['id_categoria']}</td>
+                  </tr>";
+        }
+    } else {
+        echo "<tr><td colspan='4'>Nenhum produto encontrado</td></tr>";
+    }
+    ?>
+  </table>
 </body>
 </html>
 

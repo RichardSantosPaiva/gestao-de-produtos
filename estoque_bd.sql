@@ -1,4 +1,4 @@
-
+drop database estoque_produtos;
 CREATE DATABASE estoque_produtos;
 
 -- Usar o banco de dados recém-criado
@@ -113,3 +113,4 @@ FROM
     produtos 
 ORDER BY 
     preco ASC;
+    
