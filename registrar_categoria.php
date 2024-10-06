@@ -23,14 +23,14 @@
     $password = "";
     $db_name ="estoque_produtos";
 
-    $categoria=  $_POST['categoria_produto'];
+    $categorias=  $_POST['categoria_produto'];
 
-    $sql = "INSERT INTO categorias (categoria) values ('".$categoria."')";
+    $sql = "INSERT INTO categorias (categoria) values ('".$categorias."')";
  
     $conn = new mysqli($servername, $username, $password,$db_name);
 
     if($conn->query($sql) == TRUE){
-        echo " {$categoria} adicionada com sucesso";
+        echo " {$categorias} adicionada com sucesso";
     }else{
       echo "Error: " . $sql . "<br>" . $conn->error;
     }
