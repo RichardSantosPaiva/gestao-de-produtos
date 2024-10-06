@@ -56,8 +56,12 @@ $sql_categorias = "SELECT id_categorias, categoria FROM categorias";
 $result_categorias = $conn->query($sql_categorias);
 
 // Pesquisa de produtos
-$sql_produtos = "SELECT id_produtos, nome, preco, id_categoria FROM produtos"; // Correção na consulta SQL
-$result_produtos = $conn->query($sql_produtos); // Execução da consulta
+$sql_produtos = "
+SELECT p.id_produtos, p.nome, p.preco, p.id_categoria, e.quantidade 
+FROM produtos p
+JOIN estoque_produto e ON p.id_produtos = e.id_produto"; // Inclui a quantidade de estoque
+$result_produtos = $conn->query($sql_produtos);
+
 
 ?>
 
@@ -95,10 +99,12 @@ $result_produtos = $conn->query($sql_produtos); // Execução da consulta
   <h2>Lista de Produtos</h2>
   <table border="1">
     <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Preço</th>
-      <th>ID Categoria</th>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Preço</th>
+        <th>ID Categoria</th>
+        <th>Quantidade</th> <!-- Nova coluna para a quantidade -->
+        <th>Ações</th> <!-- Nova coluna para ações -->
     </tr>
     <?php 
     if ($result_produtos->num_rows > 0) {
@@ -108,13 +114,19 @@ $result_produtos = $conn->query($sql_produtos); // Execução da consulta
                     <td>{$row['nome']}</td>
                     <td>{$row['preco']}</td>
                     <td>{$row['id_categoria']}</td>
+                    <td>{$row['quantidade']}</td> <!-- Exibir a quantidade -->
+                    <td>
+                        <a href='editar_produto.php?id={$row['id_produtos']}'>Editar</a> | 
+                        <a href='excluir_produto.php?id={$row['id_produtos']}' onclick='return confirm(\"Tem certeza que deseja excluir este produto?\");'>Excluir</a>
+                    </td>
                   </tr>";
         }
     } else {
-        echo "<tr><td colspan='4'>Nenhum produto encontrado</td></tr>";
+        echo "<tr><td colspan='6'>Nenhum produto encontrado</td></tr>";
     }
     ?>
-  </table>
+</table>
+
 </body>
 </html>
 
