@@ -9,7 +9,7 @@ CREATE TABLE fornecedor (
     id_fornecedor INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100),
     contato VARCHAR(20)
-);
+);	
 
 -- Criação da tabela categorias
 CREATE TABLE categorias (
@@ -114,3 +114,17 @@ FROM
 ORDER BY 
     preco ASC;
     
+
+/*3. Modificando o Banco de Dados
+*/
+ALTER TABLE produtos ADD COLUMN foto VARCHAR(255);
+
+/*excluir os cara*/
+-- Primeiro, remova as associações do fornecedor
+DELETE FROM fornecedor_produtos WHERE id_produto = 5;
+
+-- Em seguida, remova o estoque
+DELETE FROM estoque_produto WHERE id_produto = 5;
+
+-- Por fim, exclua o produto
+DELETE FROM produtos WHERE id_produtos = 5;
